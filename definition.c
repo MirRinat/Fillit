@@ -53,7 +53,7 @@ int def_height(char *str)
     {
         if (str[i] == '#')
         {
-            if (i / 5 < min)
+            if ((i / 5) < min)
                 min = i / 5;
             if ((i / 5) > max)
                 max = i / 5;
@@ -64,24 +64,48 @@ int def_height(char *str)
     return (height);
 }
 
-void def_min(char *str,t_tetris *tetris)
+int def_min_x(char *str)
 {
     int min_x;
-    int min_y;
+    //int min_y;
     int i;
 
     min_x = 6;
-    min_y = 6;
+    //min_y = 6;
     i = 0;
     while(!(str[i] == '\n' && str[i + 1] == '\n'))
     {
         if (str[i] == '#')
         {
             if ((i % 5) < min_x)
-                tetris->min_x = i % 5;
-            if ((i / 5) < min_y)
-                tetris->min_y= i / 5;
+                min_x = i % 5;
+      //      if ((i / 5) < min_y)
+        //        min_y= i / 5;
         }
         i++;
     }
+    return (min_x);
+}
+
+int def_min_y(char *str)
+{
+    //int min_x;
+    int min_y;
+    int i;
+
+    //min_x = 6;
+    min_y = 6;
+    i = 0;
+    while(!(str[i] == '\n' && str[i + 1] == '\n'))
+    {
+        if (str[i] == '#')
+        {
+    //        if ((i % 5) < min_x)
+      //          min_x = i % 5;
+                  if ((i / 5) < min_y)
+                    min_y= i / 5;
+        }
+        i++;
+    }
+    return (min_y);
 }

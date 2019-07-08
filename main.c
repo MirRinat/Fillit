@@ -19,12 +19,16 @@ t_tetris *cut_tetris(char *str, char letter)
     int j;
     int width;
     int height;
+    int min_x;
+    int min_y;
+    t_tetris *tetris;
 
     width = def_width(str);
     height = def_height(str);
+    min_x = def_min_x(str);
+    min_y = def_min_y(str);
     pos = ft_memalloc(sizeof(char *) * height + 1);
     j = 0;
-    def_min(str,tetris);
     while(j < def_height(str))
     {
         pos[j] = ft_strnew(def_width(str));
@@ -37,30 +41,45 @@ t_tetris *cut_tetris(char *str, char letter)
 
 t_list reader(int fd)
 {
-    t_list *figure;
+    t_list *list;
+    t_list *new_fig;
     char *buffer;
     int ret;
     t_tetris *tetris;
+    char letter = 'A';
 
-    ret = read(fd, buf, 21);
-    tetris = cut_tetr(buffer,)
-    ft_lstnew()
-
-    ft_lstadd(&figure, create_tetris(**pos,width,height,letter) )
+    letter = 'A';
+    list = NULL;
+    new_fig = NULL;
+    buffer = ft_strnew(21);
+    while((ret = read(fd, buffer, 21)) >= 20)
+    {
+        tetris = cut_tetris(buffer,letter);
+        new_fig = ft_lstnew(tetris, sizeof(t_tetris));
+        ft_lstadd(&list,new_fig);
+        letter++;
+    }
+    return (*list);
 }
 
 
 
-
-
-int main(int argc, char *argv)
+int main(int argc, char **argv)
 {
     int fd;
     int ret;
     char *buf;
+    t_map map;
+    t_list *list;
+    t_tetris *teee;
 
-    fd = open(argv[1], O_RDONLY)
-    ret = read(fd,buf,21);
+    //map = create_map(4);
+    //print_map(map);
+    fd = open(argv[1], O_RDONLY);
+    ret = read(fd, buf, 21);
+    teee= cut_tetris(buf,'A');
+    printf("%s",*teee->pos);
+    //list = reader(fd);
 
 }
 
