@@ -57,6 +57,7 @@ void print_map(t_map *map)
     while(j < map->size)
     {
         ft_putstr(map->array[j]);
+        //printf("%s\n",map->array[j]);
         ft_putchar('\n');
         j++;
 

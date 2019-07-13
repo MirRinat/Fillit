@@ -14,13 +14,6 @@
 
 void		ft_lstadd(t_list **alst, t_list *new)
 {
-	t_list	*head;
-
-	if (!*alst && !alst)
-		return ;
-	if (!new)
-		return ;
-	head = *alst;
-	new->next = head;
+	new->next = *alst;
 	*alst = new;
 }

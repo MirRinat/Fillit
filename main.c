@@ -60,7 +60,7 @@ void		ft_lstrev(t_list **alst)
     *alst = prev;
 }
 
-void print_list(t_list *list)
+/*void print_list(t_list *list)
 {
 
     while(list != NULL)
@@ -68,100 +68,100 @@ void print_list(t_list *list)
         printf("%s\n",(char *)&(list->content));
         list = list->next;
     }
+}*/
+void	min_max(char *str, t_dot *min, t_dot *max)
+{
+    int i;
+
+    i = 0;
+    while (i < 20)
+    {
+        if (str[i] == '#')
+        {
+            if (i / 5 < min->y)
+                min->y = i / 5;
+            if (i / 5 > max->y)
+                max->y = i / 5;
+            if (i % 5 < min->x)
+                min->x = i % 5;
+            if (i % 5 > max->x)
+                max->x = i % 5;
+        }
+        i++;
+    }
 }
+
 
 t_tetris *cut_tetris(char *str, char letter)
 {
     char **pos;
     int j;
-    int width;
-    int height;
-    int min_x;
-    int min_y;
+    //int width;
+    //int height;
+   // int min_x;
+   // int min_y;
+   t_dot *mi;
+   t_dot *max;
     t_tetris *tetris;
 
-    width = def_width(str);
-    height = def_height(str);
-    min_x = def_min_x(str);
-    min_y = def_min_y(str);
-    pos = ft_memalloc(sizeof(char *) * (height));
+   // width = def_width(str);
+   // height = def_height(str);
+  //  min_x = def_min_x(str);
+   // min_y = def_min_y(str);
+   mi = create_dot(3,3);
+   max = create_dot(0,0);
+    min_max(str, mi, max);
+    pos = ft_memalloc(sizeof(char *) * (max->y - mi->y + 1));
     j = 0;
-    while(j < height)
+    while(j < max->y - mi->y + 1)
     {
-        pos[j] = ft_strnew(width);
-        ft_strncpy(pos[j],str + min_x + (j + min_y) * 5, width);
+        pos[j] = ft_strnew(max->x - mi->x + 1);
+        ft_strncpy(pos[j],str + (mi->x) + (j + mi->y) * 5, max->x - mi->x + 1);
         printf("%s\n",pos[j]);
 
         j++;
 
     }
-    printf("width = %d\nheight = %d\nminy = %d\nminx = %d\n",width,height,min_y,min_x);
+    //printf("width = %d\nheight = %d\nminy = %d\nminx = %d\n",width,height,min_y,min_x);
     printf("\n");
-    tetris = create_tetris(pos,width,height,letter);
+    tetris = create_tetris(pos, max->x - mi->x + 1, max->y - mi->y + 1, letter);
+    ft_memdel((void **)&mi);
+    ft_memdel((void **)&max);
     return (tetris);
 }
 
-t_list *reader(int fd)
+t_list *reader(char *buffer)
 {
     t_list *list;
-    //t_list *new_fig;
-    char *buffer;
-    int ret;
+    //char *buffer;
+   // int ret;
     t_tetris *tetris;
     char letter;
 
     letter = 'A';
     list = NULL;
     //new_fig = NULL;
-    buffer = ft_strnew(21);
-    while((ret = read(fd, buffer, 21)) >= 20)
-    {
-        if((tetris = cut_tetris(buffer,letter++)) == NULL)
-        {
-            ft_memdel((void **)&buffer);
-            return (free_list(list));
-        }
-        //ft_lstnew(tetris, sizeof(t_tetris));
-        ft_lstadd(&list,ft_lstnew(tetris, sizeof(t_tetris)));
-        //letter++;
-        ft_memdel((void **)&tetris);
-        //letter++;
-    }
-    printf("hete\n");
-    ft_memdel((void **)&buffer);
-    //print_list(list);
+//    buffer = ft_strnew(21);
+   // buffer = "##..\n#...\n#...\n....\n\n";
+
+
+    // while((ret = read(fd, buffer, 21)) >= 20)
+   // {
+        tetris = cut_tetris(buffer,letter++);
+//        {
+//            ft_memdel((void **)&buffer);
+//            return (free_list(list));
+//        }
+     ft_lstadd(&list,ft_lstnew(tetris, sizeof(t_tetris)));
+     //   ft_memdel((void **)&tetris);
+//    }
+   // ft_memdel((void **)&buffer);
+    //if(ret != 0)
+     //   return (free_list(list));
     ft_lstrev(&list);
     return (list);
 }
 
-
-
-/*int main(int argc, char **argv)
-{
-    int fd;
-    int ret;
-    char *buf;
-    //t_map map;
-    //t_list *list;
-    //t_tetris *teee;
-
-    //map = create_map(4);
-    //print_map(map);
-   // fd = open("a.txt", O_RDONLY);
-   // printf("%d\n",fd);
-   // printf("%d\n",ret = read(fd, buf, 21));
-   // printf("%s\n",buf);
-    buf = "..##\n...#\n...#\n....\n\n";
-    cut_tetris(buf,'A');
-   printf("h = %d\n",def_height("..##\n...#\n...#\n....\n\n"));
-    printf("w = %d\n",def_width("..##\n...#\n...#\n....\n\n"));
-    printf("mx = %d\n",def_min_x("..##\n...#\n...#\n....\n\n"));
-    printf("my = %d\n",def_min_y("..##\n...#\n...#\n....\n\n"));
-    //teee= cut_tetris(buf,'A');
-    //printf("%s",teee->pos[0]);
-    //list = reader(fd);
-    return (0);
-}*/
 
 int main(int argc, char **argv)
 {
@@ -169,19 +169,13 @@ int main(int argc, char **argv)
     t_list *list;
     t_map *map;
 
-    printf("here\n");
-    fd = open(argv[1], O_RDONLY);
-    printf("here1\n");
-    list = reader(fd);
-    //print_list(list);
-    printf("here2\n");
+
+    //fd = open(argv[1], O_RDONLY);
+    list = reader("##..\n##..\n....\n....\n\n");
     map = solver(list);
-  //  printf("here3\n");
     print_map(map);
-    printf("here3\n");
-    free_map(map);
-    printf("here3\n");
-    free_list(list);
-    printf("here3\n");
+   // free_map(map);
+    //free_list(list);
+
     return (0);
 }

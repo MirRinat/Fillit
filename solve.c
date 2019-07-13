@@ -86,7 +86,6 @@ int back(t_map *map, t_list *list)
     if(list == NULL)
         return (1);
     y = 0;
-    printf("here5\n");
     tetris = (t_tetris *)(list->content);
     while(y < map->size - tetris->height + 1)
     {
@@ -95,19 +94,14 @@ int back(t_map *map, t_list *list)
         {
             if (good(tetris,map,x,y))
             {
-                printf("here9\n");
                 if (back(map,list->next))
                 {
-                    printf("here11\n");
                     return (1);
                 }
-
                 else
                 {
                     set_letter(tetris,map,create_dot(x,y),'.');
-                    printf("here8\n");
                 }
-                printf("here10\n");
             }
                x++;
         }
@@ -125,16 +119,12 @@ t_map *solver(t_list *list)
     printf("count list = %d\n",ft_lstcount(list));
     printf("size = %d\n",size);
     map = create_map(size);
-    printf("here3\n");
     while (!back(map,list))
     {
-        printf("here4\n");
         size++;
         free_map(map);
-
         map = create_map(size);
     }
-    printf("here6\n");
     return(map);
 }
 
