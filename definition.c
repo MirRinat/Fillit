@@ -53,7 +53,7 @@ int def_height(char *str)
     {
         if (str[i] == '#')
         {
-            if ((i / 5) < min)
+            if (i / 5 < min)
                 min = i / 5;
             if ((i / 5) > max)
                 max = i / 5;
@@ -79,8 +79,8 @@ int def_min_x(char *str)
         {
             if ((i % 5) < min_x)
                 min_x = i % 5;
-      //      if ((i / 5) < min_y)
-        //        min_y= i / 5;
+            //      if ((i / 5) < min_y)
+            //        min_y= i / 5;
         }
         i++;
     }
@@ -100,10 +100,10 @@ int def_min_y(char *str)
     {
         if (str[i] == '#')
         {
-    //        if ((i % 5) < min_x)
-      //          min_x = i % 5;
-                  if ((i / 5) < min_y)
-                    min_y= i / 5;
+            //        if ((i % 5) < min_x)
+            //          min_x = i % 5;
+            if ((i / 5) < min_y)
+                min_y= i / 5;
         }
         i++;
     }

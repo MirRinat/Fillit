@@ -36,8 +36,9 @@ t_map *create_map(int size)
     map->array = (char **)ft_memalloc(sizeof(char *) * size);
     while(j < size)
     {
-        i = 0;
+
         map->array[j] = ft_strnew(size);
+        i = 0;
         while(i < size)
         {
             map->array[j][i] = '.';
@@ -70,4 +71,18 @@ t_dot *create_dot(int x, int y)
     dot->x = x;
     dot->y = y;
     return (dot);
+}
+
+void free_map(t_map *map)
+{
+    int i;
+
+    i = 0;
+    while(i < map->size)
+    {
+        ft_memdel((void **)&(map->array[i]));
+        i++;
+    }
+    ft_memdel((void **)&(map->array));
+    ft_memdel((void **)&(map));
 }

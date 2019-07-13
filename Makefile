@@ -12,11 +12,11 @@
 
 NAME = fillit
 
-SRC = main.c definition.c create.c
+SRC = main.c definition.c create.c solve.c
 
 HEADERS = libft/libft.a
 
-OBJECTS = *.o
+OBJECTS = fillit
 
 all: $(NAME)
 
