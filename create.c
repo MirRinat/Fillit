@@ -31,7 +31,7 @@ t_map *create_map(int size)
     int j;
 
     j = 0;
-    map = ft_memalloc(sizeof(t_map));
+    map = (t_map *)ft_memalloc(sizeof(t_map));
     map->size = size;
     map->array = (char **)ft_memalloc(sizeof(char *) * size);
     while(j < size)
@@ -57,7 +57,6 @@ void print_map(t_map *map)
     while(j < map->size)
     {
         ft_putstr(map->array[j]);
-        //printf("%s\n",map->array[j]);
         ft_putchar('\n');
         j++;
 

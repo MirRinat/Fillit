@@ -14,5 +14,10 @@
 
 void		*ft_strnew(size_t size)
 {
-    return (ft_memalloc((size + 1) * sizeof(char)));
+	void	*p;
+
+	if ((size + 1) == 0 || !(p = (void *)malloc((size + 1) * sizeof(void))))
+		return (NULL);
+	p = ft_bzero(p, size + 1);
+	return (p);
 }
