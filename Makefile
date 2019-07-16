@@ -12,21 +12,29 @@
 
 NAME = fillit
 
-SRC = main.c definition.c create.c solve.c
+LNAM = libft.a
 
-HEADERS = libft/libft.a
+LIBF = ./includes/libft
 
-OBJECTS = fillit
+INCL = ./src/fillit.h
+
+SRCS = ./src
+
+CCFL = gcc -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME):
-	gcc $(SRC) -o $(NAME) $(HEADERS)
+	@make -C $(LIBF) re
+	@$(CCFL) -L $(LIBF) -lft $(SRCS)/*.c -I $(LIBF) -I $(INCL) -o $(NAME)
 
 clean:
-	rm -f $(OBJECTS)
+	@make -C $(LIBF) clean
 
 fclean: clean
-	rm -f $(NAME)
+	@make -C $(LIBF) fclean
+	@/bin/rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
