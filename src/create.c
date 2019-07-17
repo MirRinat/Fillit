@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 t_tetris	*create_tetris(char **pos, int width, int height, char letter)
 {

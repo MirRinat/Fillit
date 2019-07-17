@@ -6,11 +6,11 @@
 /*   By: bantario <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 13:54:07 by bantario          #+#    #+#             */
-/*   Updated: 2019/07/16 18:32:48 by bantario         ###   ########.fr       */
+/*   Updated: 2019/07/17 16:43:26 by bantario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void	t3c(t_node *list)
 {
@@ -19,9 +19,17 @@ void	t3c(t_node *list)
 	i = 0;
 	while (list->mas[i])
 	{
+		if (list->mas[i] != '#' && list->mas[i] != '.' && list->mas[i] != '\n'
+					&& list->mas[i] != '\0' && list->mas[i] == ' ')
+		{
+			list->i_g++;
+			return ;
+		}
 		if ((list->mas[i] == '\n' && (list->mas[i + 1] == '\n'
 						|| list->mas[i + 1] == '\0')))
+		{
 			list->t3_c[1]++;
+		}
 		i++;
 	}
 }
@@ -56,6 +64,8 @@ void	contine(t_node *list)
 
 void	keks(t_node *list)
 {
+	if (list->i_g > 0)
+		return ;
 	if ((list->fig ^ T2) == 0 || (list->fig ^ T6) == 0
 			|| (list->fig ^ T10) == 0 || (list->fig ^ T12) == 0
 			|| (list->fig ^ T17) == 0 || (list->fig ^ T19) == 0)
@@ -79,6 +89,12 @@ void	lstuse(t_node *list)
 		valid_dlc(list);
 		list->fig = list->fig << 1;
 		list->t3_c[0]++;
+		list->count_doc++;
+		if (list->count_doc == 16)
+		{
+			list->i_g++;
+			return ;
+		}
 	}
 	contine(list);
 }
@@ -91,12 +107,15 @@ void	start_valid(int fd, t_node *list)
 	list->t3_c[1] = 0;
 	list->sq = 0;
 	list->i_g = 0;
+	list->count_doc = 0;
 	list->mas = ft_strnew(0);
 	list->fdr = read(fd, list->mas, 3096);
 	list->i = 0;
 	t3c(list);
 	while (list->mas[list->i])
 	{
+		if (list->i_g > 0)
+			return ;
 		lstuse(list);
 		list->i++;
 	}

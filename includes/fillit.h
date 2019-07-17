@@ -58,6 +58,7 @@ typedef struct	s_node
 	int			j;
 	int			i_g;
 	int			sq;
+	int			count_doc;
 }				t_node;
 void			valid_dlc(t_node *list);
 void			fresh(t_node *list);

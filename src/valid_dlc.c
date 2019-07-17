@@ -6,14 +6,16 @@
 /*   By: bantario <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/27 20:15:51 by bantario          #+#    #+#             */
-/*   Updated: 2019/07/16 18:35:20 by bantario         ###   ########.fr       */
+/*   Updated: 2019/07/17 15:34:39 by bantario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void	valid_dlc(t_node *list)
 {
+	if (list->i_g > 0)
+		return ;
 	if ((list->fig ^ T2) == 0 || (list->fig ^ T6) == 0
 			|| (list->fig ^ T10) == 0 || (list->fig ^ T12) == 0
 			|| (list->fig ^ T17) == 0 || (list->fig ^ T19) == 0)
@@ -25,6 +27,8 @@ void	valid_dlc(t_node *list)
 
 void	fresh(t_node *list)
 {
+	if (list->i_g > 0)
+		return ;
 	if ((list->fig ^ T1) == 0 || (list->fig ^ T2) == 0 || (list->fig ^ T3) == 0
 			|| (list->fig ^ T4) == 0 || (list->fig ^ T5) == 0
 			|| (list->fig ^ T6) == 0 || (list->fig ^ T7) == 0
@@ -40,6 +44,7 @@ void	fresh(t_node *list)
 			list->sq++;
 		list->fis[0] = list->t3_c[1];
 		list->j++;
+		list->count_doc = 0;
 	}
 	else
 	{

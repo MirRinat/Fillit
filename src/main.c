@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "../includes/fillit.h"
 
 void			ft_lstrev(t_list **alst)
 {
@@ -99,6 +99,7 @@ int				main(int argc, char **argv)
 		return (0);
 	}
 	map = solver(list, list2);
+	ft_memdel((void **)&list2);
 	print_map(map);
 	free_map(map);
 	free_list(list);
