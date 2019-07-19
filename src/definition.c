@@ -23,7 +23,7 @@ int		def_width(char *str)
 	min = 6;
 	width = 0;
 	i = 0;
-	while (!(str[i] == '\n' && str[i + 1] == '\n'))
+	while (i < 20)
 	{
 		if (str[i] == '#')
 		{
@@ -49,7 +49,7 @@ int		def_height(char *str)
 	min = 6;
 	height = 0;
 	i = 0;
-	while (!(str[i] == '\n' && str[i + 1] == '\n'))
+	while (i < 20)
 	{
 		if (str[i] == '#')
 		{
@@ -71,7 +71,7 @@ int		def_min_x(char *str)
 
 	min_x = 6;
 	i = 0;
-	while (!(str[i] == '\n' && str[i + 1] == '\n'))
+	while (i < 20)
 	{
 		if (str[i] == '#')
 		{
@@ -90,7 +90,7 @@ int		def_min_y(char *str)
 
 	min_y = 6;
 	i = 0;
-	while (!(str[i] == '\n' && str[i + 1] == '\n'))
+	while (i < 20)
 	{
 		if (str[i] == '#')
 		{

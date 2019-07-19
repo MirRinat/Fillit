@@ -6,7 +6,7 @@
 /*   By: bglinda <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 20:57:13 by bglinda           #+#    #+#             */
-/*   Updated: 2019/07/02 20:57:13 by bglinda          ###   ########.fr       */
+/*   Updated: 2019/07/19 16:42:20 by bantario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,16 @@ typedef struct	s_node
 	int			fdr;
 	int			t3_c[2];
 	int			i;
-	int			t3_l;
 	int			fig;
 	int			j;
 	int			i_g;
 	int			sq;
 	int			count_doc;
+	int			count_sn;
+	int			trig_one;
 }				t_node;
+void			all_tonull(t_node *list);
+void			shmon_symb(t_node *list, int fd);
 void			valid_dlc(t_node *list);
 void			fresh(t_node *list);
 void			start_valid(int fd, t_node *list);
@@ -90,7 +93,7 @@ int				def_min_y(char *str);
 int				def_min_x(char *str);
 t_tetris		*cut_tetris(char *str, char letter);
 t_list			*reader(int fd);
-t_map			*solver(t_list *list, t_node *list2);
+t_map			*solver(t_list *list);
 int				back(t_map *map, t_list *list);
 int				good(t_tetris *tetris, t_map *map, int x, int y);
 void			free_map(t_map *map);
@@ -98,5 +101,11 @@ void			set_letter(t_tetris *tetris, t_map *map, t_dot *dot, char let);
 int				ft_sqrt(int num);
 t_list			*free_list(t_list *list);
 void			free_map(t_map *map);
+
+int	dots_and_sharps(char *str);
+int	additional(char *str);
+int	validation(char *str);
+void	fault(void);
+int		read_file(int fd);
 
 #endif

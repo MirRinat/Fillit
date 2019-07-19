@@ -95,14 +95,16 @@ int				back(t_map *map, t_list *list)
 	return (0);
 }
 
-t_map			*solver(t_list *list, t_node *list2)
+t_map			*solver(t_list *list)
 {
 	t_map		*map;
 	int			size;
-
-	if (list2->sq == 10)
-		size = 8;
-	size = ft_sqrt(ft_lstcount(list) * 4);
+	int			count;
+	//if (list2->sq == 10)
+	//	size = 8;
+	if((count = ft_lstcount(list)) > 26)
+		fault();
+	size = ft_sqrt(count * 4);
 	map = create_map(size);
 	while (!back(map, list))
 	{

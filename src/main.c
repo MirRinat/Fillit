@@ -6,7 +6,7 @@
 /*   By: bglinda <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/02 20:56:32 by bglinda           #+#    #+#             */
-/*   Updated: 2019/07/05 14:35:59 by bglinda          ###   ########.fr       */
+/*   Updated: 2019/07/19 17:03:54 by bantario         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ t_list			*reader(int fd)
 	buffer = ft_strnew(21);
 	while ((ret = read(fd, buffer, 21)) >= 20)
 	{
-		if ((tetris = cut_tetris(buffer, letter++)) == NULL)
+		buffer[ret] = '\0';
+		if (!(validation(buffer)) ||
+					(tetris = cut_tetris(buffer, letter++)) == NULL)
 		{
 			ft_memdel((void **)&buffer);
 			return (free_list(list));
@@ -74,34 +76,45 @@ t_list			*reader(int fd)
 		ft_lstadd(&list, ft_lstnew(tetris, sizeof(t_tetris)));
 		ft_memdel((void **)&tetris);
 	}
+	if (buffer[20] != '\0')
+		fault();
 	ft_memdel((void **)&buffer);
 	ft_lstrev(&list);
 	return (list);
+}
+
+void			maindlc(t_list *list, t_map *map)
+{
+	print_map(map);
+	free_map(map);
+	free_list(list);
 }
 
 int				main(int argc, char **argv)
 {
 	t_list		*list;
 	t_map		*map;
-	t_node		*list2;
+	//t_node		*list2;
+	int			fd;
 
 	if (argc != 2)
 	{
 		ft_putstr("usage: ./fillit source_file\n");
-		return (1);
+		return (0);
 	}
-	list2 = (t_node *)malloc(sizeof(t_node));
-	start_valid(open(argv[1], O_RDONLY), list2);
-	if (list2->fis[1] <= 0 || list2->i_g > 0 ||
-					(list = reader(open(argv[1], O_RDONLY))) == NULL)
+	/*list2 = (t_node *)malloc(sizeof(t_node));
+	fd = open(argv[1], O_RDONLY);
+	start_valid(fd, list2);
+	close(fd);
+	if (list2->fis[1] <= 0 || list2->i_g > 0 ||*/
+	fd = open(argv[1], O_RDONLY);
+	if ((list = reader(fd)) == NULL)
 	{
 		ft_putstr("error\n");
 		return (0);
 	}
-	map = solver(list, list2);
-	ft_memdel((void **)&list2);
-	print_map(map);
-	free_map(map);
-	free_list(list);
+	close(fd);
+	map = solver(list);
+	maindlc(list, map);
 	return (0);
 }

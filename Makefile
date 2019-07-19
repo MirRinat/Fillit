@@ -14,9 +14,9 @@ NAME = fillit
 
 LNAM = libft.a
 
-LIBF = ./includes/libft
+LIBF = ./libft
 
-INCL = ./src/fillit.h
+INCL = ./includes/fillit.h
 
 SRCS = ./src
 
@@ -26,14 +26,14 @@ all: $(NAME)
 
 $(NAME):
 	@make -C $(LIBF) re
-	@$(CCFL) -L $(LIBF) -lft $(SRCS)/*.c -I $(LIBF) -I $(INCL) -o $(NAME)
+	@$(CCFL) -L $(LIBF) -lft $(SRCS)/*.c -I $(LIBF)  -o $(NAME)
 
 clean:
 	@make -C $(LIBF) clean
 
 fclean: clean
 	@make -C $(LIBF) fclean
-	@/bin/rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
