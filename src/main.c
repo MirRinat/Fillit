@@ -53,7 +53,14 @@ t_tetris		*cut_tetris(char *str, char letter)
 	return (tetris);
 }
 
-t_list			*reader(int fd)
+void			del_buf(char *buffer)
+{
+	if (buffer[20] != '\0')
+		errror();
+	ft_memdel((void **)&buffer);
+}
+
+t_list			*reader(int fd, t_sq *sq)
 {
 	t_list		*list;
 	char		*buffer;
@@ -67,7 +74,7 @@ t_list			*reader(int fd)
 	while ((ret = read(fd, buffer, 21)) >= 20)
 	{
 		buffer[ret] = '\0';
-		if (!(validation(buffer)) ||
+		if (!(valid(buffer, sq)) ||
 					(tetris = cut_tetris(buffer, letter++)) == NULL)
 		{
 			ft_memdel((void **)&buffer);
@@ -76,45 +83,36 @@ t_list			*reader(int fd)
 		ft_lstadd(&list, ft_lstnew(tetris, sizeof(t_tetris)));
 		ft_memdel((void **)&tetris);
 	}
-	if (buffer[20] != '\0')
-		fault();
-	ft_memdel((void **)&buffer);
+	del_buf(buffer);
 	ft_lstrev(&list);
 	return (list);
-}
-
-void			maindlc(t_list *list, t_map *map)
-{
-	print_map(map);
-	free_map(map);
-	free_list(list);
 }
 
 int				main(int argc, char **argv)
 {
 	t_list		*list;
 	t_map		*map;
-	//t_node		*list2;
+	t_sq		*sq;
 	int			fd;
 
+	sq = (t_sq *)malloc(sizeof(t_sq));
+	sq->count = 0;
 	if (argc != 2)
 	{
 		ft_putstr("usage: ./fillit source_file\n");
 		return (0);
 	}
-	/*list2 = (t_node *)malloc(sizeof(t_node));
 	fd = open(argv[1], O_RDONLY);
-	start_valid(fd, list2);
-	close(fd);
-	if (list2->fis[1] <= 0 || list2->i_g > 0 ||*/
-	fd = open(argv[1], O_RDONLY);
-	if ((list = reader(fd)) == NULL)
+	if ((list = reader(fd, sq)) == NULL)
 	{
 		ft_putstr("error\n");
 		return (0);
 	}
 	close(fd);
-	map = solver(list);
-	maindlc(list, map);
+	map = solver(list, sq);
+	print_map(map);
+	free(sq);
+	free_map(map);
+	free_list(list);
 	return (0);
 }

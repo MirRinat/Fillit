@@ -12,29 +12,29 @@
 
 #include "../includes/fillit.h"
 
-int	dots_and_sharps(char *str)
+int		points_and_sq(char *str)
 {
-	int sharp;
-	int dot;
+	int sq;
+	int pt;
 	int i;
 
-	sharp = 0;
-	dot = 0;
+	sq = 0;
+	pt = 0;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '#')
-			sharp++;
+			sq++;
 		if (str[i] == '.')
-			dot++;
+			pt++;
 		i++;
 	}
-	if (!(sharp == 4 && dot == 12))
+	if (!(sq == 4 && pt == 12))
 		return (0);
 	return (1);
 }
 
-int	additional(char *str)
+int		carry(char *str)
 {
 	if ((str[4] != '\n' && str[9] != '\n' && str[14] != '\n' &&
 				str[19] != '\n'))
@@ -42,15 +42,13 @@ int	additional(char *str)
 	return (1);
 }
 
-int	validation(char *str)
+int		ft_police(char *str)
 {
-	int i;
 	int valid;
+	int i;
 
-	i = 0;
 	valid = 0;
-	if (!(additional(str)) || !(dots_and_sharps(str)))
-		return (0);
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '#')
@@ -66,13 +64,26 @@ int	validation(char *str)
 		}
 		i++;
 	}
+	return (valid);
+}
+
+int		valid(char *str, t_sq *sq)
+{
+	int valid;
+
+	valid = 0;
+	if (!(carry(str)) || !(points_and_sq(str)))
+		return (0);
+	valid = ft_police(str);
 	if (!(valid == 6 || valid == 8))
 		return (0);
+	if (valid == 8)
+		sq->count++;
 	return (1);
 }
 
-void	fault(void)
+void	errror(void)
 {
-	write(1, "error\n", 6);
+	ft_putstr("error\n");
 	exit(0);
 }
